@@ -14,12 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-//HTTP GET Request to display form
-Route::get('/dvds/search', 'DvdController@search');
 
-//When access the URL, the DVDController's Search method will display the associated form HTML
-//first arg?
-Route::get('/dvds', 'DvdController@results');
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -31,6 +28,9 @@ Route::get('/dvds', 'DvdController@results');
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+Route::group(['middleware' => 'web'], function () {
+  Route::get('/dvds/search', 'DvdController@search');
+  Route::get('/dvds', 'DvdController@results');
+  Route::get('/dvds/{id}', 'DvdController@details');
+  Route::post('/dvds/{id}', 'DvdController@store');
 });

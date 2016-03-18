@@ -51,7 +51,7 @@
     <tbody>
     <?php foreach($movies as $movie) : ?>
     <tr>
-        <td><?php echo $movie->title ?></td>
+        <td><?php echo $movie->title ?> <a href="/dvds/<?php echo $movie->id ?>">Review</a></td>
         <td><?php echo $movie->rating_name ?></td>
         <td><?php echo $movie->genre_name ?></td>
         <td><?php echo $movie->label_name ?></td>

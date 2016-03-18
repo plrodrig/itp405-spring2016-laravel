@@ -4,8 +4,9 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests;
 Use App\Http\Controllers\Controller;
+use Validator;
 class DvdController extends Controller{
-    //Renders a view, presents a page that displays search form
+    //Renders a view, presents asearch form
     public function search(){
         $genres = DB::table('genres')->get();
         $ratings = DB::table('ratings')->get();
@@ -24,7 +25,7 @@ class DvdController extends Controller{
 
         //First makes one query search
         $movies = DB::table('dvds')
-        ->select('title', 'genre_name', 'rating_name', 'label_name', 'sound_name', 'format_name')
+        ->select('title', 'dvds.id', 'genre_name', 'rating_name', 'label_name', 'sound_name', 'format_name')
             ->join('labels', 'dvds.label_id', '=', 'labels.id')
             ->join('sounds', 'dvds.sound_id', '=', 'sounds.id')
             ->join('formats', 'dvds.format_id', '=', 'formats.id')
@@ -47,6 +48,7 @@ class DvdController extends Controller{
         $movies = $movies->get();
 
         $ratings = DB::table('ratings')->get();
+        //return list of data, the results
         return view('results', [
             'dvd_title' => $dvd_title,
             'rating_title'=> $rating_title,
@@ -54,5 +56,62 @@ class DvdController extends Controller{
             'ratings' => $ratings,
             'movies' => $movies,
         ]);
+    }
+    //delivers a view that presents review form to a user, as well as details of dvd and other reviews
+    public function details($id){
+        $movieID = $id;
+        $reviews = DB::table('reviews')
+            ->select('dvd_id', 'title', 'description', 'rating')
+            ->orderBy('title')
+            ->where('dvd_id', '=', $id)
+            ->get();
+        $movie = DB::table('dvds')
+            ->select('label_name', 'title', 'release_date', 'award', 'sound_name', 'genre_name', 'rating_name', 'format_name', 'dvds.id')
+            ->join('labels', 'dvds.label_id', '=', 'labels.id')
+            //get record where foreign key matches primary key
+            //combine rows from two or more tables based on a common field
+            ->join('sounds', 'dvds.sound_id', '=', 'sounds.id')
+            ->join('genres', 'dvds.genre_id', '=', 'genres.id')
+            ->join('ratings', 'dvds.rating_id', '=', 'ratings.id')
+            ->join('formats', 'dvds.format_id', '=', 'formats.id')
+            //get record for desired id
+            ->where('dvds.id', '=', $id)
+            ->get();
+     //   dd($movie);
+     //to pass reviews to view, pass in the array
+     //create a key called reviews so in view there is a variable called reviews
+        return view('details', [
+            'movie' => $movie,
+            'reviews' => $reviews,
+            'movieID' => $id
+        ]);
+    }
+    //process data, wont have its own view, insert into the databse, do some validations & redirect back to same view
+    public function store($id, Request $request){
+
+      $validation = Validator::make($request->all(),[
+        'title' => 'required|min:5',
+        'rating' => 'digits_between:1,10',
+        'description' => 'required|min:10',
+        'dvd_id' => 'required|integer'
+
+      ]);
+
+      //if validation fails, redirect to same page with errors
+      if($validation->fails()){
+        return redirect('dvds/' . $id)
+        ->withInput()
+        ->withErrors($validation);
+      }
+      //If Reached this point, can insert review into database
+
+      DB::table('reviews')->insert([
+        'title' => $request->input('title'),
+        'rating' => $request->input('rating'),
+        'description' => $request->input('description'),
+        'dvd_id'=> $id
+      ]);
+      //$id = $request->input('dvdId');
+      return redirect('dvds/' . $id)->with('success', true);
     }
 }

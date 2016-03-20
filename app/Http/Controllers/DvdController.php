@@ -5,6 +5,14 @@ use DB;
 use App\Http\Requests;
 Use App\Http\Controllers\Controller;
 use Validator;
+use App\Models\Genre;
+use App\Models\Label;
+use App\Models\Sound;
+use App\Models\Rating;
+use App\Models\Format;
+use App\Models\Dvd;
+
+
 class DvdController extends Controller{
     //Renders a view, presents asearch form
     public function search(){
@@ -13,6 +21,17 @@ class DvdController extends Controller{
         return view('search', [
             'genres' => $genres,
             'ratings' => $ratings
+        ]);
+    }
+    //Renders a view, presents form to insert new DVD
+    public function create(){
+
+        return view('create', [
+          'genres' => Genre::all(),
+          'labels' => Label::all(),
+          'sounds' => Sound::all(),
+          'ratings' => Rating::all(),
+          'formats' => Format::all()
         ]);
     }
     //on the search page, form submits to another url that is associated with this method
@@ -113,5 +132,34 @@ class DvdController extends Controller{
       ]);
       //$id = $request->input('dvdId');
       return redirect('dvds/' . $id)->with('success', true);
+    }
+
+    public function insertDvd(Request $request){
+      $validation = Validator::make($request->all(),[
+        'dvd_title' => 'required',
+        'genre' => 'required',
+        'sound' => 'required',
+        'label' => 'required',
+        'rating' => 'required',
+        'format' => 'required'
+      ]);
+
+      //if validation fails, redirect to same page with errors
+      if($validation->fails()){
+        return redirect('dvds/create')
+        ->withInput()
+        ->withErrors($validation);
+      }
+      //add Dvd to DB
+      $dvd = new Dvd([
+        'title' => $request->input('dvd_title'),
+        'genre_id' => $request->input('genre'),
+        'sound_id' => $request->input('sound'),
+        'label_id' => $request->input('label'),
+        'rating_id' => $request->input('rating'),
+        'format_id' => $request->input('format')
+      ]);
+      $dvd->save();
+      return redirect('dvds/create')->with('success', true);
     }
 }

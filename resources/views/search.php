@@ -24,37 +24,61 @@
     </div>
     <!-- /.container -->
 </nav>
+<dl class="dl-horizontal">
+        <dt>Genre</dt>
+        <?php foreach($genres as $genre) : ?>
+          <dd> <?php echo $genre->genre_name ?> <dd>
+        <?php endforeach; ?>
 
-<!-- Content Section -->
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-5">
-        <h1>Dvd Search</h1>
-        <!--Send a request to route /dvds, which displays results.php through dvdcontroller's results method-->
-        <form action="/dvds" method="get">
-            DVD Title: <input type="text" name="dvd_title">
-            <br>
-            <select name="genre_name">
-                <?php foreach($genres as $genre) : ?>
-                    <option value="<?php echo $genre->genre_name ?>"> <?php echo $genre->genre_name ?></option>
-                <?php endforeach; ?>
-                <option value="All">All</option>
-            </select>
 
-            <select name="rating_name">
-                <?php foreach($ratings as $rating) : ?>
-                    <option value="<?php echo $rating->rating_name ?>"> <?php echo $rating->rating_name ?></option>
-                <?php endforeach; ?>
-                <option value="All">All</option>
-            </select>
-            <input type="submit" value= "Search">
-        </form>
+</dl>
+<div class="panel" style="width: 600px; margin: 0 auto;">
+    <div class="panel-heading">
+        <h3 class="panel-title"></h3>
+    </div>
+    <div class="panel-body">
+      <h1>DVD Search</h1>
+  <form action="/dvds" method="get" class="form-horizontal" novalidate="">
+        <div class="form-group">
+              <label class="control-label col-md-3">DVD title: </label>
+                <div class="col-md-6">
+                  <input class='form-control' type="text" name="dvd_title">
                 </div>
         </div>
-
+        <div class="form-group">
+              <label class="control-label col-md-3">Genre: </label>
+                <div class="col-md-6">
+                  <select class='form-control' name="genre_name">
+                      <?php foreach($genres as $genre) : ?>
+                          <option value="<?php echo $genre->genre_name ?>"> <?php echo $genre->genre_name ?></option>
+                      <?php endforeach; ?>
+                      <option value="All">All</option>
+                  </select>
+                </div>
+        </div>
+        <div class="form-group">
+              <label class="control-label col-md-3">Rating: </label>
+                <div class="col-md-6">
+                  <select class='form-control' name="rating_name">
+                      <?php foreach($ratings as $rating) : ?>
+                          <option value="<?php echo $rating->rating_name ?>"> <?php echo $rating->rating_name ?></option>
+                      <?php endforeach; ?>
+                      <option value="All">All</option>
+                  </select>
+                </div>
+        </div>
+    <div class='form-group'>
+        <div class='col-md-7 col-md-offset-3'>
+          <input type="submit" value= "Search" class='btn btn-primary'>
+        </div>
     </div>
-</section>
+  </form>
+		</div>
+		<div class="input_fields_wrap">
+			<!-- Dynamic Fields go here -->
+		</div>
+	</div>
+</div>
 
 
 <!-- Footer -->

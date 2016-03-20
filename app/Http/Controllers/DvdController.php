@@ -16,7 +16,10 @@ use App\Models\Dvd;
 class DvdController extends Controller{
     //Renders a view, presents asearch form
     public function search(){
-        $genres = DB::table('genres')->get();
+
+        //$genres = DB::table('genres')->get();
+        //using eloquent to get all genres
+        $genres = Genre::all();
         $ratings = DB::table('ratings')->get();
         return view('search', [
             'genres' => $genres,

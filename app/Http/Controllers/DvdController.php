@@ -14,6 +14,17 @@ use App\Models\Dvd;
 
 
 class DvdController extends Controller{
+    //presents dvds of a genre
+    public function genreResults($id){
+
+      $genre = Genre::find($id);
+      $dvds = DVD::with('genre', 'rating') ->where('genre_id', '=', $id)->get();
+
+      return view('genreResults', [
+        'genre' => $genre,
+        'dvds'=> $dvds
+      ]);
+    }
     //Renders a view, presents asearch form
     public function search(){
 

@@ -24,14 +24,17 @@
     </div>
     <!-- /.container -->
 </nav>
+<div class="row">
+<div class="col-md-6">
 <dl class="dl-horizontal">
         <dt>Genre</dt>
         <?php foreach($genres as $genre) : ?>
-          <dd> <?php echo $genre->genre_name ?> <dd>
+
+          <dd>   <a href="/genres/<?php echo $genre->id ?>/dvds"><?php echo $genre->genre_name ?> </a> <dd>
         <?php endforeach; ?>
-
-
 </dl>
+</div>
+<div class="col-md-6">
 <div class="panel" style="width: 600px; margin: 0 auto;">
     <div class="panel-heading">
         <h3 class="panel-title"></h3>
@@ -79,7 +82,8 @@
 		</div>
 	</div>
 </div>
-
+</div>
+</div> <!--./container-->
 
 <!-- Footer -->
 <footer>

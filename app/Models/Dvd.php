@@ -15,4 +15,16 @@ class Dvd extends Model
     'format_id'
   );
 
+  public function genre()
+  {
+    return $this->belongsTo('App\Models\Genre');
+  }
+  public function rating()
+  {
+    return $this->belongsTo('App\Models\Rating');
+  }
+  public function label()
+  {
+    return $this->belongsTo('App\Models\Label');
+  }
 }

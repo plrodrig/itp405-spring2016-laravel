@@ -40,10 +40,18 @@
 
       <?php foreach($dvds as $dvd) : ?>
         <tr>
-          <td><?php echo $dvd->title ?></td>
-          <td><?php echo $dvd->rating_name ?></td>
-          <td><?php echo $dvd->genre_name ?></td>
-          <td><?php echo $dvd->label_name ?></td>
+           <?php if ($dvd->title) : ?>
+             <td><?php echo $dvd->title ?></td>
+           <?php endif; ?>
+           <?php if ($dvd->rating) : ?>
+             <td><?php echo $dvd->rating->rating_name ?></td>
+           <?php endif; ?>
+           <?php if ($dvd->genre) : ?>
+             <td><?php echo $dvd->genre->genre_name ?></td>
+           <?php endif; ?>
+           <?php if ($dvd->label) : ?>
+           <td><?php echo $dvd->label->label_name ?></td>
+           <?php endif; ?>
         </tr>
       <?php endforeach; ?>
 

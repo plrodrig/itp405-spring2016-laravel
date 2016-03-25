@@ -19,7 +19,7 @@ class DvdController extends Controller{
 
       $genre = Genre::find($id);
       $dvds = DVD::with('genre', 'rating') ->where('genre_id', '=', $id)->get();
-
+    //  dd($dvds[0]);
       return view('genreResults', [
         'genre' => $genre,
         'dvds'=> $dvds

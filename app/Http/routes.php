@@ -16,6 +16,23 @@ Route::get('/', function () {
 });
 
 
+//Define routes for API
+Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function(){
+  //GET /api/v1/dvds
+  Route::get('dvds', 'DvdController@index');
+  //getting a list of somethng is called index in laravel, its a convention.
+  //To accesss a single resource, name it show
+  //GET api/v1/genres/{id}
+  Route::get('genres/{id}', 'GenreController@show');
+  //URL Path is
+  //GET api/v1/artists
+  Route::get('genres', 'GenreController@index');
+  //get a single genre, the genre resource
+  //define as GET api/v1/genres/{id}
+
+  //create a dvd, so POST api/v1/dvd
+  Route::post('dvds', 'GenreController@store');
+});
 
 /*
 |--------------------------------------------------------------------------

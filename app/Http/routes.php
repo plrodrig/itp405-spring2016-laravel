@@ -19,7 +19,9 @@ Route::get('/', function () {
 //Define routes for API
 Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function(){
   //GET /api/v1/dvds
-  Route::get('dvds', 'DvdController@index');
+  //Route::get('dvds', 'DvdController@index');
+  Route::get('dvds', 'GenreController@showDvds');
+  Route::get('dvds/{id}', 'GenreController@showDvd');
   //getting a list of somethng is called index in laravel, its a convention.
   //To accesss a single resource, name it show
   //GET api/v1/genres/{id}

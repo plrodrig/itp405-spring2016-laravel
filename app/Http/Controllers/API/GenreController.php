@@ -10,6 +10,61 @@ use Response;
 use Validator;
 class GenreController extends Controller
 {
+  public function showDvds(){
+    $dvds = Dvd::with('genre', 'rating')->take(20)->get();
+
+    // dd($dvds[0]);
+    $genres = $this->findUniqueGenres($dvds);
+    $ratings = $this->findUniqueRatings($dvds);
+     return [
+       'dvds' => $dvds,
+       'genres' => $genres,
+       'ratings' => $ratings
+     ];
+  }
+
+  public function showDvd($id){
+    $dvd = Dvd::find($id);
+    if(!$dvd){
+      return Response::json([
+        'error' => 'Genre not found'
+      ], 400);
+    }
+    $genres= Dvd::find($id)->genre;
+    $ratings = Dvd::find($id)->rating;
+
+    return [
+      'dvd' => $dvd,
+      'genres' => $genres,
+      'ratings' => $ratings
+    ];
+  }
+
+  public function findUniqueGenres($dvds){
+    $added = [];
+    $genres = [];
+    foreach ($dvds as $dvd){
+      // dd($dvd->genre->id);
+      if(!array_key_exists($dvd->genre->id, $added)){
+        $added[$dvd->genre->id] = true;
+        $genres[] = $dvd->genre;
+      }
+    }
+    return $genres;
+  }
+
+  public function findUniqueRatings($dvds){
+    $added = [];
+    $ratings = [];
+    foreach ($dvds as $dvd){
+      // dd($dvd->genre->id);
+      if(!array_key_exists($dvd->rating->id, $added)){
+        $added[$dvd->rating->id] = true;
+        $ratings[] = $dvd->rating;
+      }
+    }
+    return $ratings;
+  }
   //works like a form submission
   public function store(Request $request){
     $validation = Validator::make($request->all(),[

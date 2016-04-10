@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dvd extends Model
 {
+  protected $hidden = ['added', 'created_at', 'updated_at', 'release_date', 'label_id', 'format_id', 'sound_id', 'genre', 'rating'];
   protected $fillable = array(
     'title',
     'genre_id',

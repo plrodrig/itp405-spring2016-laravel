@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('/instagram/{lat}/{lng}', function($lat, $lng){
+  $instagram = new Instagram([
+    'clientID' => '32c49420641e47cf8af943b347fdfd0f'
+  ]);
+  $images = $instagram->images();
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });

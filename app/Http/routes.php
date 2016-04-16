@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\API\Instagram;
 /*
 |--------------------------------------------------------------------------
 | Routes File
@@ -10,6 +11,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+//dynamic segment in url
+Route::get('/instagram/{lat}/{lng}', function($lat, $lng){
+  $instagram = new Instagram([
+    'clientID' => '32c49420641e47cf8af943b347fdfd0f'
+  ]);
+  $images = $instagram->images();
+});
 
 Route::get('/', function () {
     return view('welcome');

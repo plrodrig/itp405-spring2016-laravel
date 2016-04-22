@@ -12,6 +12,8 @@ class GenreController extends Controller
 {
   public function showDvds(){
     $dvds = Dvd::with('genre', 'rating')->take(20)->get();
+    dd($dvds);
+    
 
     // dd($dvds[0]);
     $genres = $this->findUniqueGenres($dvds);

@@ -14,9 +14,18 @@ class Instagram{
     $clientID = $this->clientID;
     $url = "https://api.instagram.com/v1/media/search?lat=48.858844&lng=2.294351&client_id=$clientID";
     $jsonString = file_get_contents($url);
-    $posts = json_decode($jsonString);
+    // var_dump($jsonString);
+    // echo $jsonString;
+    // dd($jsonString);
+    // $json = json_decode($jsonString);
+    // return $json;
+    // $posts = json_decode($jsonString, true);
+    // dd($posts);
+    // return $posts;
+    // var_dump($posts);
+    echo $jsonString;
 
-    var_dump($posts);
+    // return $jsonString;
   }
 }
 

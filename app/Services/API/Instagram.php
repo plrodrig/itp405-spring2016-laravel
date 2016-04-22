@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\API;
+use Cache;
 
 class Instagram{
   protected $clientID;
@@ -9,23 +10,24 @@ class Instagram{
     $this->clientID = $config['clientID'];
   }
 
-  public function images()
+  public function images($lat, $lng)
   {
-    $clientID = $this->clientID;
-    $url = "https://api.instagram.com/v1/media/search?lat=48.858844&lng=2.294351&client_id=$clientID";
-    $jsonString = file_get_contents($url);
-    // var_dump($jsonString);
-    // echo $jsonString;
-    // dd($jsonString);
-    // $json = json_decode($jsonString);
-    // return $json;
-    // $posts = json_decode($jsonString, true);
-    // dd($posts);
-    // return $posts;
-    // var_dump($posts);
-    echo $jsonString;
+    if(Cache::get($lat+$lng)){
+      //return data from Cache
+      $jsonString =  Cache::get($lat+$lng);
+    } else {
+      //request data from Instagram
+      //Put data in the Cache
+      //return that data
+      $clientID = $this->clientID;
+      $url = "https://api.instagram.com/v1/media/search?lat=$lat&lng=$lng&client_id=$clientID";
+      $jsonString = file_get_contents($url);
 
-    // return $jsonString;
+      Cache::put($lat+$lng, $jsonString, 30);
+    }
+
+      echo $jsonString;
+
   }
 }
 

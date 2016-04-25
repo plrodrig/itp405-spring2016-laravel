@@ -25,8 +25,8 @@ class Instagram{
 
       Cache::put($lat+$lng, $jsonString, 30);
     }
-
-      echo $jsonString;
+    return $jsonString;
+      //echo $jsonString;
 
   }
 }

@@ -16,6 +16,14 @@ Route::get('/instagram/{lat}/{lng}', function($lat, $lng){
     'clientID' => '32c49420641e47cf8af943b347fdfd0f'
   ]);
   $images = $instagram->images($lat, $lng);
+  //echo $images;
+  return $images;
+
+  //Problem: Works with JSON/Caching, will not work
+  //with blade's templating.
+  //return view('instagram', [
+  //  'images' => $images
+  //]);
 });
 
 

@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+@extends('layout')
+@section('content')
     @foreach($images as $image)
       <div>
-        {{ $image['images']['low_resolution']['url'] }}
-        <img src="{{$image['images']['low_resolution']['url']}}">
+        <h4> Location: </h4> <p> {{$image['location']['name']}} </p> 
+         <img src="{{$image['images']['low_resolution']['url']}}">
       </div>
     @endforeach
-
-  </body>
-</html>
+@endsection

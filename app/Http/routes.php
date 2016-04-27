@@ -15,15 +15,18 @@ Route::get('/instagram/{lat}/{lng}', function($lat, $lng){
   $instagram = new Instagram([
     'clientID' => '32c49420641e47cf8af943b347fdfd0f'
   ]);
-  $images = $instagram->images($lat, $lng);
+  $json = $instagram->images($lat, $lng);
+
   //echo $images;
-  return $images;
+  // return $images;
+  $json = json_decode($json, true);
+  // dd($json['data']);
 
   //Problem: Works with JSON/Caching, will not work
   //with blade's templating.
-  //return view('instagram', [
-  //  'images' => $images
-  //]);
+  return view('instagram', [
+    'images' => $json['data']
+  ]);
 });
 
 

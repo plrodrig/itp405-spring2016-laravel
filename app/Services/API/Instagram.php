@@ -22,6 +22,7 @@ class Instagram{
       $clientID = $this->clientID;
       $url = "https://api.instagram.com/v1/media/search?lat=$lat&lng=$lng&client_id=$clientID";
       $jsonString = file_get_contents($url);
+      
 
       Cache::put($lat+$lng, $jsonString, 30);
     }

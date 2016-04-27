@@ -7,8 +7,10 @@
   <body>
     @foreach($images as $image)
       <div>
-        <h4></h4>
+        {{ $image['images']['low_resolution']['url'] }}
+        <img src="{{$image['images']['low_resolution']['url']}}">
       </div>
     @endforeach
+
   </body>
 </html>
